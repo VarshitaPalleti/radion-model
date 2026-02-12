@@ -1,0 +1,14 @@
+# Ignore Data
+data/
+*.zip
+
+# Ignore Models (Too large for git usually, or generated locally)
+*.pkl
+*.h5
+
+# Ignore Python System Files
+__pycache__/
+*.pyc
+venv/
+.env
+.DS_Store

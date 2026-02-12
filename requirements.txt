@@ -1,0 +1,13 @@
+tensorflow
+scikit-learn
+opencv-python
+numpy
+pandas
+matplotlib
+joblib
+lime
+scikit-image
+fastapi
+uvicorn
+python-multipart
+pillow
