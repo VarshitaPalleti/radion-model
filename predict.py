@@ -9,6 +9,22 @@ MODEL_PATH = 'lung_cancer_svm_model.pkl'
 IMG_SIZE = 240
 CLASSES = ['normal', 'malignant', 'benign']
 
+# --- CLAHE SETUP ---
+clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+
+
+def apply_clahe(image):
+    try:
+        lab = cv2.cvtColor(image, cv2.COLOR_BGR2LAB)
+        l, a, b = cv2.split(lab)
+        cl = clahe.apply(l)
+        limg = cv2.merge((cl, a, b))
+        final = cv2.cvtColor(limg, cv2.COLOR_LAB2RGB)
+        return final
+    except Exception as e:
+        return cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+
 print("\n--- 1. LOADING THE SYSTEM ---\n")
 
 print("Loading SVM model...")
@@ -30,11 +46,17 @@ def predict_image(image_path):
     if img is None:
         return "Error: Could not read image file."
 
-    img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
+    # --- MUST MATCH TRAINING PIPELINE ---
+    # 1. Apply CLAHE first
+    img_enhanced = apply_clahe(img)
+    # 2. Resize
+    img_resized = cv2.resize(img_enhanced, (IMG_SIZE, IMG_SIZE))
 
-    img_array = np.expand_dims(img, axis=0)
+    # 3. Prepare for EfficientNet
+    img_array = np.expand_dims(img_resized, axis=0)
     img_preprocessed = preprocess_input(img_array)
 
+    # 4. Extract & Predict
     features = feature_extractor.predict(img_preprocessed, verbose=0)
 
     prediction_index = svm_model.predict(features)[0]
@@ -46,10 +68,11 @@ def predict_image(image_path):
     return f"Result: {result.upper()} (Confidence: {confidence:.2f}%)"
 
 
-image_to_test = "test_image.png" or "test_image.jpg" or "test_image.jpeg"
+# Test the image
+image_to_test = "test_image.jpg"  
 
 try:
     print(predict_image(image_to_test))
 except Exception as e:
     print(f"Error: {e}")
-    print("Make sure you put a file named 'test_image.png' in this folder!")
+    print("Make sure you put a file named 'test_image.jpg' in this folder!")
