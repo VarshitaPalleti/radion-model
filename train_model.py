@@ -103,7 +103,7 @@ X_train_features = feature_extractor.predict(X_train_pre, verbose=1)
 X_test_features = feature_extractor.predict(X_test_pre, verbose=1)
 
 print("\n--- 3. TRAINING SVM ---")
-svm_model = SVC(kernel='rbf', C=1.0, probability=True)
+svm_model = SVC(kernel='rbf', C=1.0, probability=True, class_weight='balanced')
 svm_model.fit(X_train_features, y_train)
 
 print("\n--- 4. RESULTS ---")
