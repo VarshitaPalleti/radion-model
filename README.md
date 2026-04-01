@@ -54,8 +54,8 @@ Clone the repository and install the heavy machine learning dependencies.
 *(Note: We use `opencv-python-headless` to prevent GUI thread crashes on servers).*
 
 ```bash
-git clone [https://github.com/yourusername/radion-ai-microservice.git](https://github.com/yourusername/radion-ai-microservice.git)
-cd radion-ai-microservice
+git clone https://github.com/VarshitaPalleti/radion-model.git
+cd radion-model
 pip install -r requirements.txt
 ```
 
