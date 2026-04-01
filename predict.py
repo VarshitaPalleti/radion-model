@@ -69,7 +69,7 @@ def predict_image(image_path):
 
 
 # Test the image
-image_to_test = "test_image.jpg"  
+image_to_test = "test_image.png"  
 
 try:
     print(predict_image(image_to_test))
