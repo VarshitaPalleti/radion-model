@@ -1,12 +1,8 @@
 tensorflow
 scikit-learn
-opencv-python
+opencv-python-headless
 numpy
-pandas
-matplotlib
 joblib
-lime
-scikit-image
 fastapi
 uvicorn
 python-multipart
